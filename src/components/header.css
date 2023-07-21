@@ -1,0 +1,41 @@
+/* header.css */
+
+.header {
+  padding: 0; /* Remove any padding */
+  margin: 0; /* Remove any margin */
+  height: auto; /* Set the desired height */
+
+  /* Add any other styles you want for the header */
+}
+
+/* Rest of the CSS remains the same */
+.date-bar,
+.search-bar,
+.filter,
+.select {
+  border-radius: 20px;
+}
+
+.search-bar {
+  width: 100%;
+  padding-right: 15px;
+  box-shadow: 1px 3px 1px 1px #c9c7c7;
+}
+
+.filter {
+  border: 2px solid #c9c7c7;
+  padding: 2px;
+  min-width: 70px;
+  margin: 0px 5px 0px 5px;
+}
+
+.select {
+  border: 2px solid #000000;
+  padding: 2px;
+  padding-right: 1px;
+  min-width: 70px;
+}
+
+.date-bar {
+  border: 2px solid #c9c7c7;
+}

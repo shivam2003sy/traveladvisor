@@ -1,38 +1,57 @@
-.App {
-  text-align: center;
+.Range{
+  width: 50%;
+  background-color: #e2f0f2;
+  padding: 20px;
+  
+  border-radius: 5px;
+}
+/* Style for the slider thumb (handle) */
+.form-range::-webkit-slider-thumb {
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: #007bff; /* Color of the slider thumb */
+  border: 2px solid #fff; /* Border around the slider thumb */
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+/* Style for the slider thumb in Firefox */
+.form-range::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: #01060c; /* Color of the slider thumb */
+  border: 2px solid #fff; /* Border around the slider thumb */
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
+/* Style for the value display next to the slider */
+#sliderValue {
+  display: inline-block;
+  padding: 0.5rem;
+  font-weight: bold;
+}
+.distance-value {
+  display: inline-block;
+  margin-left:60px ;
+}
+@media screen and (max-width: 600px)
+ {
+  .distance-value {
+    display: inline-block;
+    margin-left: 200px ;
   }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+  .Range{
+    width: 100%;
   }
-  to {
-    transform: rotate(360deg);
+  .form-range::-webkit-slider-thumb {
+    width: 10px;
+    height: 10px;
+  }
+  .form-range::-moz-range-thumb {
+    width: 10px;
+    height: 10px;
+  }
+  #sliderValue {
+    display: none;
   }
 }
