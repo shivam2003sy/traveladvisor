@@ -10,9 +10,6 @@ import {setLocations} from '../store/actions/locationActions'
 
 
 import "./header.css"
-const mapAccess = {
-  mapboxApiAccessToken: "pk.eyJ1Ijoiam9uc2VuIiwiYSI6IkR6UU9oMDQifQ.dymRIgqv-UV6oz0-HCFx1w",
-};
 
 const Header = ({type, setType}) => {
 
@@ -78,7 +75,7 @@ const Header = ({type, setType}) => {
           >
             <Search style={{ margin: "2px" }} />
             <MapboxAutocomplete
-              publicKey={mapAccess.mapboxApiAccessToken}
+              publicKey="pk.eyJ1Ijoiam9uc2VuIiwiYSI6IkR6UU9oMDQifQ.dymRIgqv-UV6oz0-HCFx1w"
               inputClass="form-control w-100"
               onSuggestionSelect={_suggestionSelect}
               resetSearch={false}
