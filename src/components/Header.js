@@ -9,7 +9,7 @@ import {setLocations} from '../store/actions/locationActions'
 
 
 
-import "./Header.css"
+import "./header.css"
 const mapAccess = {
   mapboxApiAccessToken: "pk.eyJ1Ijoiam9uc2VuIiwiYSI6IkR6UU9oMDQifQ.dymRIgqv-UV6oz0-HCFx1w",
 };
