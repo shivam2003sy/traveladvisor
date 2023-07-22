@@ -3,7 +3,7 @@ const defaultMapState = {
   viewState: {
     latitude: 25.4502,
     longitude: 78.5698,
-    zoom: 8
+    zoom: 10
   }
 };
 

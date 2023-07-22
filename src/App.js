@@ -4,23 +4,17 @@ import MapBox from './components/MapBox';
 import Header from './components/Header';
 import ListComponent from './components/ListComponent';
 import { getPlacesData } from './api';
-import { latLngToBounds } from "../src/helper"
+import { latLngToBounds , getDistance } from "../src/helper"
 import { useDispatch, useSelector } from 'react-redux'
 function App() {
+  const dispatch = useDispatch()
   const [type, setType] = useState('restaurants');
-  const [rating, setRating] = useState('');
-
-  const [coords, setCoords] = useState({});
   const [bounds, setBounds] = useState(null);
-
-  const [weatherData, setWeatherData] = useState([]);
   const [filteredPlaces, setFilteredPlaces] = useState([]);
-  const [places, setPlaces] = useState([]);
-
-  const [autocomplete, setAutocomplete] = useState(null);
+  const [places, setPlaces] = useState([]); 
   const [childClicked, setChildClicked] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [distance, setDistance] = useState(0);
+  const [distance, setDistance] = useState(1);
 
 
   const viewState = useSelector(s => s.mapStateReducer)
@@ -34,26 +28,32 @@ function App() {
     const sw = bounds[0];
     const ne = bounds[1];
     console.log(sw, ne);
+
     if (bounds) {
       setIsLoading(true);
-      getPlacesData(type, sw, ne)
-        .then((data) => {
-          setPlaces(data.filter((place) => place.name && place.num_reviews > 0));
-          setFilteredPlaces([]);
-          setRating('');
-          setIsLoading(false);
-          console.log(data);
+      getPlacesData(type, sw, ne).then((data) => {
+        const filteredPlaces = data.filter((place) => {
+          const placeLatLng = {
+            latitude: place.latitude,
+            longitude: place.longitude,
+          };
+          const centerLatLng = {
+            latitude: viewState.viewState.latitude,
+            longitude: viewState.viewState.longitude,
+          };
+          const distanceBetween = getDistance(placeLatLng, centerLatLng);
+          return distanceBetween <= distance;
         });
+        setPlaces(data);
+        setPlaces(data.filter((place) => place.name ));
+        setFilteredPlaces(filteredPlaces);
+        console.log(filteredPlaces);
+        
+        setIsLoading(false);
+      });
     }
-
-  }, [type, viewState]);
-
-
-  useEffect(() => {
-    const filtered = places.filter((place) => Number(place.rating) > rating);
-    setFilteredPlaces(filtered);
-
-  }, [places, rating]);
+  }, [type, viewState, distance]);
+  
 
   const handleRangeChange = (event) => {
     setDistance(parseFloat(event.target.value));
@@ -62,7 +62,9 @@ function App() {
   return (
     <div className='container'>
       <div>
-        <Header />
+        <Header
+         type={type}
+         setType={setType} />
       </div>
       <hr className="bg-secondary border-1 border-top border-secondary" />
       <div className='container'>
@@ -76,11 +78,11 @@ function App() {
                 type="range"
                 className="form-range"
                 id="customRange1"
-                min="0"
+                min="1"
                 max="5"
                 step="1"
-                value={distance} // Bind the value to the state variable
-                onChange={handleRangeChange} // Add the event handler for changes
+                value={distance} 
+                onChange={handleRangeChange}
               />
             </div>
 
@@ -89,21 +91,18 @@ function App() {
                 isLoading={isLoading}
                 childClicked={childClicked}
                 places={filteredPlaces.length ? filteredPlaces : places}
-                type={type}
-                setType={setType}
-                rating={rating}
-                setRating={setRating}
-
               />
             </div>
           </div>
           <div className='col-md-6'>
-            <MapBox />
+            <MapBox
+              setChildClicked={setChildClicked}
+              places={filteredPlaces.length ? filteredPlaces : places}
+            />
           </div>
         </div>
       </div>
     </div>
   );
 }
-
 export default App;

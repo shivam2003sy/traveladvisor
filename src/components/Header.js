@@ -14,7 +14,7 @@ const mapAccess = {
   mapboxApiAccessToken: "pk.eyJ1Ijoiam9uc2VuIiwiYSI6IkR6UU9oMDQifQ.dymRIgqv-UV6oz0-HCFx1w",
 };
 
-const Header = () => {
+const Header = ({type, setType}) => {
 
   const viewState  =  useSelector(s=> s.mapStateReducer)
   console.log(viewState)
@@ -49,7 +49,7 @@ const Header = () => {
   return (
       <Grid container spacing={1} alignItems="center" m={0.00001}>
         <Grid item xs={2} >
-          <Button
+          {type !== "restaurants" ? (<Button
             variant="outlined"
             style={{
               border: "2px solid #000000",
@@ -62,7 +62,10 @@ const Header = () => {
             startIcon={<CalendarToday />}
           >
             Enter Dates
-          </Button>
+          </Button>):("")
+
+          }
+          
         </Grid>
         <Grid item xs={7} >
           <Stack direction="row" alignItems="center" spacing={1} 
@@ -105,14 +108,13 @@ const Header = () => {
               borderRadius: "20px",
               textAlign: "center",
             }}
-              value={selectedOption}
-              onChange={handleOptionChange}
+              value={type}
+              onChange={(e) => setType(e.target.value)}
               input={<InputBase style={{ border: "2px solid #000000", padding: "2px", minWidth: "70px" }} />}
             >
-              <MenuItem value="0">Attractions</MenuItem>
-              <MenuItem value="1">One</MenuItem>
-              <MenuItem value="2">Two</MenuItem>
-              <MenuItem value="3">Three</MenuItem>
+                  <MenuItem value="restaurants">Restaurants</MenuItem>
+                  <MenuItem value="hotels">Hotels</MenuItem>
+                  <MenuItem value="attractions">Attractions</MenuItem>
             </Select>
           </Stack>
         </Grid>
