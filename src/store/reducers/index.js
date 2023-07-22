@@ -1,9 +1,10 @@
 
 import { combineReducers } from 'redux';
-import locationReducer from './locationReducer';
-const rootReducer = combineReducers({
-  locations: locationReducer,
 
+
+import mapStateReducer from './mapStateReducer';
+const rootReducer = combineReducers({
+  mapStateReducer : mapStateReducer
 });
 
 export default rootReducer;

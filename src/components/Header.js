@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 
 import { Button, Select, MenuItem, InputBase, Stack, Grid ,Typography } from "@mui/material";
 import { Search, CalendarToday } from "@mui/icons-material";
 import MapboxAutocomplete from "react-mapbox-autocomplete";
 
-import {  useDispatch } from 'react-redux'
+import {  useDispatch, useSelector } from 'react-redux'
 import {setLocations} from '../store/actions/locationActions'
 
 
@@ -15,13 +15,19 @@ const mapAccess = {
 };
 
 const Header = () => {
+
+  const viewState  =  useSelector(s=> s.mapStateReducer)
+  console.log(viewState)
   const dispatch = useDispatch()
   const [selectedOption, setSelectedOption] = useState(0);
-
+  const [hasError, setError] = useState(false);
   const handleOptionChange = (event) => {
     setSelectedOption(event.target.value);
   };
-  function _suggestionSelect(result, lat, long, text) {
+
+  
+
+  const _suggestionSelect =  useCallback((result, lat, long, text) => {
     const latitude = parseFloat(lat).toFixed(4);
     const longitude = parseFloat(long).toFixed(4);
   
@@ -29,14 +35,17 @@ const Header = () => {
       console.error('Invalid latitude or longitude provided.');
       return; 
     }
-  
-    console.log(latitude, longitude);
-  
-    dispatch(setLocations({
-      lat: latitude,
-      lng: longitude,
-    }));
-  }
+    if (Math.abs(longitude) <= 180 && Math.abs(latitude) <= 85) {
+      dispatch({
+        type: 'setViewState',
+        payload: {...viewState, longitude: longitude, latitude: latitude}
+      });
+      setError(false);
+    } else {
+      setError(true);
+    }
+  }, []);
+
   return (
       <Grid container spacing={1} alignItems="center" m={0.00001}>
         <Grid item xs={2} >
