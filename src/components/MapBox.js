@@ -5,6 +5,7 @@ import Map  ,{Marker} from "react-map-gl";
 import './MapBox.css'; 
 
 export default function MapBox() {
+
   const mapStyle = useSelector(s => s.mapStateReducer.mapStyle)
   const viewState = useSelector(s => s.mapStateReducer);
   const dispatch = useDispatch();

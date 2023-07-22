@@ -3,12 +3,44 @@ import React, { useRef, useEffect, useState } from 'react';
 import MapBox from './components/MapBox';
 import Header from './components/Header';
 import ListComponent from './components/ListComponent';
-
+import {getPlacesData} from './api';
 function App() {
-  // State to store the distance value from the range selector
+  const [type, setType] = useState('restaurants');
+  const [rating, setRating] = useState('');
+
+  const [coords, setCoords] = useState({});
+  const [bounds, setBounds] = useState(null);
+
+  const [weatherData, setWeatherData] = useState([]);
+  const [filteredPlaces, setFilteredPlaces] = useState([]);
+  const [places, setPlaces] = useState([]);
+
+  const [autocomplete, setAutocomplete] = useState(null);
+  const [childClicked, setChildClicked] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
   const [distance, setDistance] = useState(0);
 
-  // Function to handle changes in the range selector
+
+  useEffect(() => {
+    const filtered = places.filter((place) => Number(place.rating) > rating);
+
+    setFilteredPlaces(filtered);
+  }, [places, rating]);
+
+  useEffect(() => {
+    if (bounds) {
+      setIsLoading(true);
+      getPlacesData(type, bounds.sw, bounds.ne)
+        .then((data) => {
+          setPlaces(data.filter((place) => place.name && place.num_reviews > 0));
+          setFilteredPlaces([]);
+          setRating('');
+          setIsLoading(false);
+          console.log(data);
+        });
+    }
+  }, [bounds, type]);
+
   const handleRangeChange = (event) => {
     setDistance(parseFloat(event.target.value));
   };
@@ -39,7 +71,16 @@ function App() {
             </div>
 
             <div>
-             <ListComponent/>
+             <ListComponent
+sLoading={isLoading}
+childClicked={childClicked}
+places={filteredPlaces.length ? filteredPlaces : places}
+type={type}
+setType={setType}
+rating={rating}
+setRating={setRating}
+
+             />
             </div>
           </div>
           <div className='col-md-6'>
