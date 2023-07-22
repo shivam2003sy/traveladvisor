@@ -1,7 +1,8 @@
 import './App.css';
-import { useState } from 'react'; // Import the useState hook
+import React, { useRef, useEffect, useState } from 'react';
 import MapBox from './components/MapBox';
 import Header from './components/Header';
+import ListComponent from './components/ListComponent';
 
 function App() {
   // State to store the distance value from the range selector
@@ -23,7 +24,7 @@ function App() {
           <div className='col-md-6'>
             <div className='Range'>
               <label htmlFor="customRange1" className="form-label">Distance
-              <div class="distance-value">{distance}km</div>
+              <div className="distance-value">{distance}km</div>
                </label>
               <input
                 type="range"
@@ -38,7 +39,7 @@ function App() {
             </div>
 
             <div>
-              {/* Add content related to the API here */}
+             <ListComponent/>
             </div>
           </div>
           <div className='col-md-6'>

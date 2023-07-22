@@ -1,41 +1,62 @@
-/* header.css */
 
-.header {
-  padding: 0; /* Remove any padding */
-  margin: 0; /* Remove any margin */
-  height: auto; /* Set the desired height */
-
-  /* Add any other styles you want for the header */
+.MapboxAutocomplete .MapboxAutocomplete-dropdown li{
+    padding: 3px 20px;
+    cursor: pointer;
 }
 
-/* Rest of the CSS remains the same */
-.date-bar,
-.search-bar,
-.filter,
-.select {
-  border-radius: 20px;
+  .react-mapbox-ac-menu {
+    width: 100%;
+    position: absolute;
+    z-index: 9999;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    margin-top: 0;
+  }
+  
+  
+  div .react-mapbox-ac-input {
+    width: 100%;
+  }
+  
+  .react-mapbox-ac-input {
+    width: 100%;
+    min-width: 500px;
+    outline: none;
+    flex : 1;
+    border: none transparent;
+    background: "white";
+    margin: 1px 0px 0px 0px;
+    box-shadow: none;
+    /* padding: 7px; */
+    /* border-radius: 7px; */
+  }
+@media screen and (max-width: 768px) {
+    .react-mapbox-ac-input {
+        width: 100%;
+        min-width: 100px;
+        outline: none;
+        flex : 1;
+        border: none transparent;
+        background: "white";
+        margin: 1px 0px 0px 0px;
+        box-shadow: none;
+        /* padding: 7px; */
+        /* border-radius: 7px; */
+      }
 }
+  
 
-.search-bar {
-  width: 100%;
-  padding-right: 15px;
-  box-shadow: 1px 3px 1px 1px #c9c7c7;
-}
-
-.filter {
-  border: 2px solid #c9c7c7;
-  padding: 2px;
-  min-width: 70px;
-  margin: 0px 5px 0px 5px;
-}
-
-.select {
-  border: 2px solid #000000;
-  padding: 2px;
-  padding-right: 1px;
-  min-width: 70px;
-}
-
-.date-bar {
-  border: 2px solid #c9c7c7;
-}
+  .react-mapbox-ac-suggestion {
+    text-align: left;
+    font-size: 1rem;
+    cursor: pointer;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+  
+  .react-mapbox-ac-suggestion:hover {
+    background-color: #ccc;
+  }
+  

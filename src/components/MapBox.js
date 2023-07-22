@@ -1,22 +1,38 @@
-import React from "react";
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
-import "leaflet/dist/leaflet.css";
+import React, { useRef, useEffect, useState } from 'react';
+import mapboxgl from '!mapbox-gl'; // eslint-disable-line import/no-webpack-loader-syntax
+import './MapBox.css'; 
 
-const MapBox = () => {
-  const position = [51.505, -0.09];
+mapboxgl.accessToken = 'pk.eyJ1Ijoic2hpdmFtMjAwM3N5IiwiYSI6ImNsa2RsdDF4YTA0Ymczcm5xOHA5NmsxZGMifQ.jTn_kCeufp7SzKiHyti4DQ';
+
+export default function MapBox() {
+  const mapContainer = useRef(null);
+  const map = useRef(null);
+  const [lng, setLng] = useState(-70.9);
+  const [lat, setLat] = useState(42.35);
+  const [zoom, setZoom] = useState(9);
+
+  useEffect(() => {
+    if (map.current) return; // initialize map only once
+    map.current = new mapboxgl.Map({
+      container: mapContainer.current,
+      style: 'mapbox://styles/mapbox/streets-v12',
+      center: [lng, lat],
+      zoom: zoom
+    });
+  }, [lng, lat, zoom]);
+
+  useEffect(() => {
+    if (!map.current) return; // wait for map to initialize
+    map.current.on('move', () => {
+      setLng(map.current.getCenter().lng.toFixed(4));
+      setLat(map.current.getCenter().lat.toFixed(4));
+      setZoom(map.current.getZoom().toFixed(2));
+    });
+  });
+
   return (
-    <MapContainer center={position} zoom={13} style={{ height: "400px" }}>
-      <TileLayer
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-      />
-      <Marker position={position}  >
-        <Popup>
-          A marker at latitude {position[0]}, longitude {position[1]}.
-        </Popup>
-      </Marker>
-    </MapContainer>
+    <div>
+      <div ref={mapContainer} className="map-container" />
+    </div>
   );
-};
-
-export default MapBox;
+}
