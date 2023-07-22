@@ -21,18 +21,22 @@ const Header = () => {
   const handleOptionChange = (event) => {
     setSelectedOption(event.target.value);
   };
-
   function _suggestionSelect(result, lat, long, text) {
-    console.log(result);
-    console.log(lat);
-    console.log(long);
-    console.log(text);
+    const latitude = parseFloat(lat).toFixed(4);
+    const longitude = parseFloat(long).toFixed(4);
+  
+    if (isNaN(latitude) || isNaN(longitude)) {
+      console.error('Invalid latitude or longitude provided.');
+      return; 
+    }
+  
+    console.log(latitude, longitude);
+  
     dispatch(setLocations({
-      lat: lat,
-      long: long,
-    }))
+      lat: latitude,
+      lng: longitude,
+    }));
   }
-
   return (
       <Grid container spacing={1} alignItems="center" m={0.00001}>
         <Grid item xs={2} >
