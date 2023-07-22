@@ -1,8 +1,8 @@
 const defaultMapState = {
   mapStyle: 'mapbox://styles/mapbox/streets-v11',
   viewState: {
-    latitude: 37.8,
-    longitude: -122.4,
+    latitude: 25.4502,
+    longitude: 78.5698,
     zoom: 8
   }
 };

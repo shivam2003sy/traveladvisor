@@ -3,7 +3,9 @@ import React, { useRef, useEffect, useState } from 'react';
 import MapBox from './components/MapBox';
 import Header from './components/Header';
 import ListComponent from './components/ListComponent';
-import {getPlacesData} from './api';
+import { getPlacesData } from './api';
+import { latLngToBounds } from "../src/helper"
+import { useDispatch, useSelector } from 'react-redux'
 function App() {
   const [type, setType] = useState('restaurants');
   const [rating, setRating] = useState('');
@@ -21,16 +23,20 @@ function App() {
   const [distance, setDistance] = useState(0);
 
 
-  useEffect(() => {
-    const filtered = places.filter((place) => Number(place.rating) > rating);
-
-    setFilteredPlaces(filtered);
-  }, [places, rating]);
+  const viewState = useSelector(s => s.mapStateReducer)
 
   useEffect(() => {
+    console.log(viewState.viewState)
+    const { latitude, longitude, zoom } = viewState.viewState;
+    const bounds = latLngToBounds(latitude, longitude, zoom, 800, 600);
+    setBounds(bounds);
+    console.log(bounds)
+    const sw = bounds[0];
+    const ne = bounds[1];
+    console.log(sw, ne);
     if (bounds) {
       setIsLoading(true);
-      getPlacesData(type, bounds.sw, bounds.ne)
+      getPlacesData(type, sw, ne)
         .then((data) => {
           setPlaces(data.filter((place) => place.name && place.num_reviews > 0));
           setFilteredPlaces([]);
@@ -39,7 +45,15 @@ function App() {
           console.log(data);
         });
     }
-  }, [bounds, type]);
+
+  }, [type, viewState]);
+
+
+  useEffect(() => {
+    const filtered = places.filter((place) => Number(place.rating) > rating);
+    setFilteredPlaces(filtered);
+
+  }, [places, rating]);
 
   const handleRangeChange = (event) => {
     setDistance(parseFloat(event.target.value));
@@ -56,8 +70,8 @@ function App() {
           <div className='col-md-6'>
             <div className='Range'>
               <label htmlFor="customRange1" className="form-label">Distance
-              <div className="distance-value">{distance}km</div>
-               </label>
+                <div className="distance-value">{distance}km</div>
+              </label>
               <input
                 type="range"
                 className="form-range"
@@ -71,16 +85,16 @@ function App() {
             </div>
 
             <div>
-             <ListComponent
-sLoading={isLoading}
-childClicked={childClicked}
-places={filteredPlaces.length ? filteredPlaces : places}
-type={type}
-setType={setType}
-rating={rating}
-setRating={setRating}
+              <ListComponent
+                isLoading={isLoading}
+                childClicked={childClicked}
+                places={filteredPlaces.length ? filteredPlaces : places}
+                type={type}
+                setType={setType}
+                rating={rating}
+                setRating={setRating}
 
-             />
+              />
             </div>
           </div>
           <div className='col-md-6'>
