@@ -11,7 +11,7 @@ export default function MapBox({places, setChildClicked}) {
   const dispatch = useDispatch();
   
   const onMove = useCallback(evt => {
-    // dispatch({type: 'setViewState', payload: evt.viewState});
+    dispatch({type: 'setViewState', payload: evt.viewState});
   }, []);
 
   return (
