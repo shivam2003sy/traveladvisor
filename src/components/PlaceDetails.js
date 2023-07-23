@@ -1,8 +1,6 @@
 import React from 'react';
-import { Box, Typography, Button, Card, CardMedia, CardContent, CardActions, Chip } from '@material-ui/core';
-// import LocationOnIcon from '@material-ui/icons/LocationOn';
-// import PhoneIcon from '@material-ui/icons/Phone';
-// import Rating from '@material-ui/lab/Rating';
+import { Box, Typography, Button, Card, CardMedia, CardContent, CardActions, Chip } from '@mui/material';
+
 
 const PlaceDetails = ({ place, selected, refProp }) => {
   if (selected) refProp?.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -44,12 +42,12 @@ const PlaceDetails = ({ place, selected, refProp }) => {
         ))}
         {place.address && (
           <Typography gutterBottom variant="body2" color="textSecondary" >
-            {/* <LocationOnIcon />{place.address} */}
+      
           </Typography>
         )}
         {place.phone && (
           <Typography variant="body2" color="textSecondary" >
-            {/* <PhoneIcon /> {place.phone} */}
+          
           </Typography>
         )}
       </CardContent>
